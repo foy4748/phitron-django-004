@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %} {% load static tailwind_tags %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Task Management App" />
+    <meta name="keywords" content="task manager app" />
+    <meta name="viewport" content="width=device-width" />
+    <title>
+      {% block title %} Home {% endblock title %} || Library Management
+    </title>
+    <!-- Loading CSS -->
+    <!-- -- Bootstrap CSS -->
+    <!-- <link href="{% static "css/bootstrap/bootstrap.min.css" %}" rel="stylesheet"> -->
+    <!-- -- TailwindCSS -->
+    {% tailwind_css %}
+    <!-- -- Custom CSS -->
+    <link href="{% static "css/styles.css" %}" rel="stylesheet">
+  </head>
+  <body>
+    {% include "navbar.html" %} {% include "toast.html" %}
+    <main class="max-w-[1200px] mx-auto">
+      {% block content %}
+      <!-- All the Content Goes Here -->
+      {% endblock content %}
+    </main>
+
+    <!-- Scripts Section -->
+  </body>
+</html>
