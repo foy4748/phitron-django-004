@@ -14,11 +14,11 @@
     <!-- <link href="{% static "css/bootstrap/bootstrap.min.css" %}" rel="stylesheet"> -->
     <!-- -- TailwindCSS -->
     <!-- -- Custom CSS -->
-    <link href="{% static "css/styles.css" %}" rel="stylesheet">
     <link href="{% static "css/dist/styles.css" %}" rel="stylesheet">
   </head>
   <body>
-    {% include "navbar.html" %} {% include "toast.html" %}
+    {% include "navbar.html" %} 
+	{% include "toast.html" %}
     <main class="max-w-[1200px] mx-auto">
       {% block content %}
       <!-- All the Content Goes Here -->

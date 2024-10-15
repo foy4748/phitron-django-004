@@ -34,3 +34,7 @@ class ChangeProfileForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields.pop("password", None)
+
+
+class DepositeForm(forms.Form):
+    deposite_amount = forms.DecimalField(max_digits=12, min_value=0.00)

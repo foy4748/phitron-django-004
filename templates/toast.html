@@ -1,5 +1,5 @@
 {% for m in messages %} {% if m.tags == 'success' %}
-<p class="bg-success text-white text-center">{{m}}</p>
+<p class="bg-green-500 py-1 my-2 text-white text-center">{{m}}</p>
 {% else %}
-<p class="bg-danger text-white text-center">{{m}}</p>
+<p class="bg-red-500 py-1 my-2 text-white text-center">{{m}}</p>
 {% endif %} {% endfor %}
