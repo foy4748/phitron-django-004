@@ -38,3 +38,6 @@ class ChangeProfileForm(UserChangeForm):
 
 class DepositeForm(forms.Form):
     deposite_amount = forms.DecimalField(max_digits=12, min_value=0.00)
+
+    class Meta:
+        model = Profile

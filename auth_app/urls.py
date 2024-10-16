@@ -13,4 +13,7 @@ urlpatterns = [
         "password-change/", views.ChangePasswordView.as_view(), name="change_password"
     ),
     path("profile-change/", views.ChangeProfileView.as_view(), name="change_profile"),
+    path(
+        "deposite-balance/", views.DepositeBalanceView.as_view(), name="deposite_form"
+    ),
 ]

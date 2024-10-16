@@ -3,16 +3,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordChangeView
 
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, View
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import FormView, UpdateView
 
-from auth_app.forms import ChangeProfileForm, RegisterForm
+from auth_app.forms import ChangeProfileForm, DepositeForm, RegisterForm
+from auth_app.models import Profile
 
 
 # Create your views here.
@@ -93,4 +94,33 @@ class ChangeProfileView(LoginRequiredMixin, UpdateView):
 
     def form_invalid(self, form):
         messages.error(self.request, "FAILED to Update Profile")
+        return super().form_invalid(form)
+
+
+class DepositeBalanceView(LoginRequiredMixin, FormView):
+    model = Profile
+    form_class = DepositeForm
+    success_url = "/"
+    template_name = "auth_app/deposite_form.html"
+
+    def get_context_data(self, **kwargs):
+        current_ctx = super().get_context_data(**kwargs)
+        current_ctx["profile"] = self.request.user.profile
+        return current_ctx
+
+    # def get_object(self, queryset=None):
+    #     # This method is used to get the instance of the object to be updated
+    #     return get_object_or_404(Profile, user=self.request.user)
+
+    def form_valid(self, form):
+        current_form = form
+        profile = self.request.user.profile
+        profile.balance = profile.balance + current_form.cleaned_data["deposite_amount"]
+        messages.success(self.request, "Deposited balance successfully")
+        profile.save()
+        # current_form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "FAILED to Deposite Balance")
         return super().form_invalid(form)
