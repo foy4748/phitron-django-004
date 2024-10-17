@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+{% block content %}
+<ul>
+	{% for borrowed_book in object_list %}
+	<li>{{ borrowed_book.book.book_name }} || <a href="{% url "book:return_book" pk=borrowed_book.id %}">Return </a></li>
+	{% endfor %}
+</ul>
+{% endblock content %}
+

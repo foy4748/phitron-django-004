@@ -19,7 +19,7 @@ class Book(models.Model):
 
 
 class BorrowedBook(models.Model):
-    book = models.OneToOneField(
+    book = models.ForeignKey(
         Book, on_delete=models.CASCADE, related_name="borrowed_books"
     )
 
@@ -27,6 +27,9 @@ class BorrowedBook(models.Model):
         User, on_delete=models.CASCADE, related_name="borrowed_books"
     )
     borrowedAt = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = (("book", "user"),)
 
     def __str__(self):
         return f"{self.book.book_name} is borrowed by {self.user.first_name} {self.user.last_name}"
