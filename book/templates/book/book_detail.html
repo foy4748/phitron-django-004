@@ -1,8 +1,11 @@
 {% extends "base.html" %} {% block content %}
 <section class="flex">
-  <img src="{{ object.book_image.url }}" alt="" />
+	<img src="{{ object.book_image.url }}" alt="{{ object.book_name }}" />
   <article>
     <p>{{ object.book_name }}</p>
+	<p>Price : {{ object.price }}</p>
+	<p>Quantity : {{ object.quantity }}</p>
+	<a href="{% url "book:borrow_book" pk=object.id %}"><p>Borrow</p></a>
   </article>
 </section>
 {% endblock content %}

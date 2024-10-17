@@ -11,7 +11,7 @@ class Book(models.Model):
     book_image = models.ImageField(upload_to="book/uploads/", blank=True, null=True)
     description = models.TextField(max_length=5120)
     quantity = models.IntegerField()
-    price = models.FloatField()
+    price = models.DecimalField(decimal_places=2, max_digits=12, default=0.00)
     createdAt = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
