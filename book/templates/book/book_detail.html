@@ -1,0 +1,8 @@
+{% extends "base.html" %} {% block content %}
+<section class="flex">
+  <img src="{{ object.book_image.url }}" alt="" />
+  <article>
+    <p>{{ object.book_name }}</p>
+  </article>
+</section>
+{% endblock content %}
