@@ -22,5 +22,6 @@ urlpatterns = [
     # Reload Browser URL config
     path("__reload__/", include("django_browser_reload.urls")),
     path("admin/", admin.site.urls),
+    path("book/", include("book.urls")),
     path("", include("auth_app.urls")),
 ]

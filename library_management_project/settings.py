@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # ---------
     # Packages
     "auth_app",
+    "book",
 ]
 
 MIDDLEWARE = [
