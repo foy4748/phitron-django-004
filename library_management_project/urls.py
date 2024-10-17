@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     # Reload Browser URL config
@@ -25,3 +27,6 @@ urlpatterns = [
     path("book/", include("book.urls")),
     path("", include("auth_app.urls")),
 ]
+
+# Adding Media Config URL at the end
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
