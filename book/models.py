@@ -33,3 +33,18 @@ class BorrowedBook(models.Model):
 
     def __str__(self):
         return f"{self.book.book_name} is borrowed by {self.user.first_name} {self.user.last_name}"
+
+
+class BookReview(models.Model):
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, related_name="reviewed_books"
+    )
+
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="reviewed_books"
+    )
+    review = models.TextField(max_length=5120)
+    createdAt = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.book.book_name} || {self.review}"

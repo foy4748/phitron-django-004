@@ -1,11 +1,46 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 <section class="flex">
-	<img src="{{ object.book_image.url }}" alt="{{ object.book_name }}" />
-  <article>
-    <p>{{ object.book_name }}</p>
-	<p>Price : {{ object.price }}</p>
-	<p>Quantity : {{ object.quantity }}</p>
-	<a href="{% url "book:borrow_book" pk=object.id %}"><p>Borrow</p></a>
-  </article>
+	<section>
+		<img src="{{ object.book_image.url }}" alt="{{ object.book_name }}" />
+	</section>
+	<section>
+		<article>
+			<p>{{ object.book_name }}</p>
+			<p>Price : {{ object.price }}</p>
+			<p>Quantity : {{ object.quantity }}</p>
+			<a href="{% url "book:borrow_book" pk=object.id %}"><p>Borrow</p></a>
+		</article>
+		<section> 
+			<h1 class="font-bold text-xl">Reviews</h1>
+			<ul>
+				{% for singleReview in review_list %}
+				<li>{{ review.review }}</li>
+				{% endfor %}	
+			</ul>
+		</section>
+		<!-- Comment Section -->
+		<!-- Comment List -->
+		<div class="container mt-4">
+			{% for singleReview in review_list  %}
+			<div class="bg-slate-100 mb-3">
+				<div class="flex justify-between">
+					{% if singleReview.commenter_name is not None %}
+					<p class="p-0 m-0">@{{singleReview.commenter_name}}</p>
+					{% else %}
+					<p class="p-0 m-0">@anonymous</p>
+					{% endif %}
+					<p class="p-0 m-0">{{ singleReview.createdAt|timesince }} ago</p>
+				</div>
+				<div class="card-body">
+					<p class="card-text">{{singleReview.review}}</p>
+				</div>
+			</div>
+			{% endfor %}
+
+		</div>
+
+		<!-- END of Comment Section -->
+	</section>
 </section>
 {% endblock content %}

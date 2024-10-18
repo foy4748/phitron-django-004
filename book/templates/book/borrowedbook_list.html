@@ -2,7 +2,7 @@
 {% block content %}
 <ul>
 	{% for borrowed_book in object_list %}
-	<li>{{ borrowed_book.book.book_name }} || <a href="{% url "book:return_book" pk=borrowed_book.id %}">Return </a></li>
+	<li>{{ borrowed_book.book.book_name }} || <a href="{% url "book:return_book" pk=borrowed_book.id %}">Return </a><a href="{% url "book:review_book" pk=borrowed_book.book.id %}">Review </a></li>
 	{% endfor %}
 </ul>
 {% endblock content %}

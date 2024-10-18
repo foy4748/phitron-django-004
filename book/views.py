@@ -1,13 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.http.response import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, ListView, View
 from django.contrib import messages
 
-from .forms import AddBookForm
-from book.models import Book, BorrowedBook
+from .forms import AddBookForm, AddReviewForm
+from book.models import Book, BookReview, BorrowedBook
 
 
 # Create your views here.
@@ -23,6 +23,16 @@ class ShowBookList(LoginRequiredMixin, ListView):
 
 class ShowBookDetail(LoginRequiredMixin, DetailView):
     model = Book
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        pk = self.kwargs.get("pk")
+        print("PK", pk)
+        book = Book.objects.get(pk=pk)
+        if book is not None:
+            reviews = BookReview.objects.filter(book=book)
+            ctx["review_list"] = reviews
+        return ctx
 
 
 class ShowBorrowedBookList(LoginRequiredMixin, ListView):
@@ -49,7 +59,7 @@ class BorrowBook(LoginRequiredMixin, View):
             if quantityOK is False:
                 error_message = f"Book is out of stock"
                 messages.error(req, error_message)
-                nextUrl = reverse("book:book_list")
+                nextUrl = reverse("book:borrowedbook_list")
                 return HttpResponseRedirect(nextUrl)
 
             if balanceOK is False:
@@ -70,7 +80,7 @@ class BorrowBook(LoginRequiredMixin, View):
                     f"Borrowed book successfully : {book.book_name} | {book.author}"
                 )
                 messages.success(req, success_message)
-                nextUrl = reverse("book:book_list")
+                nextUrl = reverse("book:borrowedbook_list")
                 return HttpResponseRedirect(nextUrl)
             else:
                 error_message = f"Non-existing Book or User"
@@ -113,3 +123,36 @@ class ReturnBook(LoginRequiredMixin, View):
             messages.error(req, error_message)
             nextUrl = reverse("book:book_list")
             return HttpResponseRedirect(nextUrl)
+
+
+# Review a Book
+class ReviewBook(LoginRequiredMixin, CreateView):
+    model = BookReview
+    form_class = AddReviewForm
+    success_url = reverse_lazy("book:borrowedbook_list")
+
+    def dispatch(self, request, *args, **kwargs):
+        book_id = self.kwargs.get("pk")
+        book = Book.objects.get(pk=book_id)
+        user = request.user
+
+        isBookOK = book is not None
+        isBorrwed = BorrowedBook.objects.filter(book=book, user=user).exists()
+
+        # Check if the user has borrowed the book
+        if isBookOK is False or isBorrwed is False:
+            error_message = f"Book was not borrowed"
+            messages.error(self.request, error_message)
+            url = reverse_lazy("book:borrowedbook_list")
+            # Redirect to an error page or any other page
+            return HttpResponseRedirect(url)
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        book_id = self.kwargs.get("pk")
+        book = Book.objects.get(pk=book_id)
+        form.instance.user = self.request.user
+        form.instance.book = book
+        form.save()
+        return super().form_valid(form)
