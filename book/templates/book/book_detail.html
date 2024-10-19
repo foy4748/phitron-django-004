@@ -1,46 +1,49 @@
 {% extends "base.html" %} 
 {% block content %}
-<section class="flex">
-	<section>
-		<img src="{{ object.book_image.url }}" alt="{{ object.book_name }}" />
+<section class="grid grid-cols-12 gap-4">
+	<section class="col-span-12 md:col-span-6 lg:col-span-4">
+		<img class="w-full" src="{{ object.book_image.url }}" alt="{{ object.book_name }}" />
 	</section>
-	<section>
+	<section class="col-span-12 md:col-span-6 lg:col-span-4">
 		<article>
-			<p>{{ object.book_name }}</p>
-			<p>Price : {{ object.price }}</p>
-			<p>Quantity : {{ object.quantity }}</p>
-			<a href="{% url "book:borrow_book" pk=object.id %}"><p>Borrow</p></a>
+			<h1 class="font-bold text-xl">{{ object.book_name }}</h1>
+			<h1 class="my-4">by <span class="italic">{{ object.author }}</span></h1>
+			<h2>Price : {{ object.price }}</h2>
+			<h3>Quantity : {{ object.quantity }}</h3>
+			<a href="{% url "book:borrow_book" pk=object.id %}"><button type="button" class="mt-4 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Borrow</button></a>
+			<h3 class="mt-4 font-bold">Description</h3>
+			<p>{{ object.description }}</p>
 		</article>
 		<section> 
-			<h1 class="font-bold text-xl">Reviews</h1>
 			<ul>
 				{% for singleReview in review_list %}
 				<li>{{ review.review }}</li>
 				{% endfor %}	
 			</ul>
 		</section>
-		<!-- Comment Section -->
-		<!-- Comment List -->
-		<div class="container mt-4">
-			{% for singleReview in review_list  %}
-			<div class="bg-slate-100 mb-3">
-				<div class="flex justify-between">
-					{% if singleReview.commenter_name is not None %}
-					<p class="p-0 m-0">@{{singleReview.commenter_name}}</p>
-					{% else %}
-					<p class="p-0 m-0">@anonymous</p>
-					{% endif %}
-					<p class="p-0 m-0">{{ singleReview.createdAt|timesince }} ago</p>
-				</div>
-				<div class="card-body">
-					<p class="card-text">{{singleReview.review}}</p>
-				</div>
-			</div>
-			{% endfor %}
-
-		</div>
-
-		<!-- END of Comment Section -->
 	</section>
+	<!-- Comment Section -->
+	<!-- Comment List -->
+	<section  class="col-span-12 lg:col-span-4">
+		<h1 class="font-bold text-xl mb-4">Reviews</h1>
+		{% for singleReview in review_list  %}
+		<div class="bg-slate-100 mb-3">
+			<div class="flex justify-between">
+				{% if singleReview.commenter_name is not None %}
+				<p class="p-0 m-0">@{{singleReview.commenter_name}}</p>
+				{% else %}
+				<p class="p-0 m-0">@anonymous</p>
+				{% endif %}
+				<p class="p-0 m-0">{{ singleReview.createdAt|timesince }} ago</p>
+			</div>
+			<div class="card-body">
+				<p class="card-text">{{singleReview.review}}</p>
+			</div>
+		</div>
+		{% endfor %}
+
+	</section>
+
+	<!-- END of Comment Section -->
 </section>
 {% endblock content %}

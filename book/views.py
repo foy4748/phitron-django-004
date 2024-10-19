@@ -6,13 +6,8 @@ from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, ListView, View
 from django.contrib import messages
 
-# Email Related
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.conf import settings
 
-from utils.send_email import success_email
+# from utils.send_email import success_email
 
 from .forms import AddBookForm, AddReviewForm
 from book.models import Book, BookReview, BorrowedBook
@@ -89,8 +84,8 @@ class BorrowBook(LoginRequiredMixin, View):
 
                 # Success Email
                 nextUrl = reverse("book:borrowedbook_list")
-                subject = "Borrowed Book Successfully"
-                success_email(self.request, subject, success_message, nextUrl)
+                # subject = "Borrowed Book Successfully"
+                # success_email(self.request, subject, success_message, nextUrl)
                 nextUrl = reverse("book:borrowedbook_list")
                 return HttpResponseRedirect(nextUrl)
             else:
