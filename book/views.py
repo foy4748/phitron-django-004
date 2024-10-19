@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
 
+from utils.send_email import success_email
+
 from .forms import AddBookForm, AddReviewForm
 from book.models import Book, BookReview, BorrowedBook
 
@@ -82,26 +84,13 @@ class BorrowBook(LoginRequiredMixin, View):
                 borrow_instance.save()
                 print(borrow_instance)
                 # Success Toast
-                success_message = (
-                    f"Borrowed book successfully : {book.book_name} | {book.author}"
-                )
+                success_message = f"Borrowed book successfully : {book.book_name} | {book.author} by you ({self.request.user.username})"
                 messages.success(req, success_message)
 
                 # Success Email
-                subject = "Borrwed Book Successfully"
-                sender = settings.EMAIL_HOST_USER
-                recipient_list = ["faisaljfcl@gmail.com"]
-                context = {
-                    "username": self.request.user.username,
-                    "message": "BorrowBook successfully",
-                }
-                html_message = render_to_string("email_template.html", context)
-                plain_message = strip_tags(html_message)
-                email = EmailMultiAlternatives(
-                    subject, plain_message, sender, recipient_list
-                )
-                email.attach_alternative(html_message, "text/html")
-                email.send()
+                nextUrl = reverse("book:borrowedbook_list")
+                subject = "Borrowed Book Successfully"
+                success_email(self.request, subject, success_message, nextUrl)
                 nextUrl = reverse("book:borrowedbook_list")
                 return HttpResponseRedirect(nextUrl)
             else:

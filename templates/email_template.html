@@ -220,7 +220,8 @@
                       margin-bottom: 16px;
                     "
                   >
-                    {{username}} {{message}}
+                    Dear {{username}},
+                    <br />{{message}}
                   </p>
                   <table
                     role="presentation"
@@ -278,7 +279,7 @@
                                   bgcolor="#0867ec"
                                 >
                                   <a
-                                    href="http://htmlemail.io"
+                                    href="{{domain}}{{success_url}}"
                                     target="_blank"
                                     style="
                                       border: solid 2px #0867ec;
@@ -296,7 +297,7 @@
                                       border-color: #0867ec;
                                       color: #ffffff;
                                     "
-                                    >Call To Action</a
+                                    >Check it out!</a
                                   >
                                 </td>
                               </tr>
@@ -314,11 +315,7 @@
                       margin: 0;
                       margin-bottom: 16px;
                     "
-                  >
-                    This is a really simple email template. It's sole purpose is
-                    to get the recipient to click the button with no
-                    distractions.
-                  </p>
+                  ></p>
                   <p
                     style="
                       font-family: Helvetica, sans-serif;
@@ -327,9 +324,7 @@
                       margin: 0;
                       margin-bottom: 16px;
                     "
-                  >
-                    Good luck! Hope it works.
-                  </p>
+                  ></p>
                 </td>
               </tr>
 
