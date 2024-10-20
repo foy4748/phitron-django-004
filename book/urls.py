@@ -8,12 +8,14 @@ from book.views import (
     ShowBookList,
     ShowBookDetail,
     ShowBorrowedBookList,
+    ShowCategoryForm,
 )
 
 app_name = "book"
 
 urlpatterns = [
     # Reload Browser URL config
+    path("add-category/", ShowCategoryForm.as_view(), name="category_form"),
     path("add-book/", ShowAddBookForm.as_view(), name="book_form"),
     path("book-list/", ShowBookList.as_view(), name="book_list"),
     path("book-detail/<str:pk>", ShowBookDetail.as_view(), name="book_detail"),

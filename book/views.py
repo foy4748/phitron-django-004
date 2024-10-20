@@ -9,11 +9,17 @@ from django.contrib import messages
 
 # from utils.send_email import success_email
 
-from .forms import AddBookForm, AddReviewForm
-from book.models import Book, BookReview, BorrowedBook
+from .forms import AddBookForm, AddCategoryForm, AddReviewForm
+from book.models import Book, BookReview, BorrowedBook, Category
 
 
 # Create your views here.
+class ShowCategoryForm(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = AddCategoryForm
+    success_url = "/"
+
+
 class ShowAddBookForm(LoginRequiredMixin, CreateView):
     model = Book
     form_class = AddBookForm
@@ -22,6 +28,22 @@ class ShowAddBookForm(LoginRequiredMixin, CreateView):
 
 class ShowBookList(LoginRequiredMixin, ListView):
     model = Book
+
+    def get_queryset(self):
+        q = super().get_queryset()
+        category_id = self.request.GET.get("category_id")
+
+        # is_filtered = False
+        # category = None
+
+        if category_id is None:
+            book_list = Book.objects.all()
+            return book_list
+        else:
+            category = Category.objects.get(id=category_id)
+            book_list = Book.objects.filter(category=category)
+            # is_filtered = True
+            return book_list
 
 
 class ShowBookDetail(LoginRequiredMixin, DetailView):

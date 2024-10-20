@@ -4,10 +4,17 @@ from django.utils import timezone
 
 
 # Create your models here.
+class Category(models.Model):
+    category = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return self.category
+
+
 class Book(models.Model):
     book_name = models.CharField(max_length=1024)
     author = models.CharField(max_length=1024)
-
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     book_image = models.ImageField(upload_to="book/uploads/", blank=True, null=True)
     description = models.TextField(max_length=5120)
     quantity = models.IntegerField()

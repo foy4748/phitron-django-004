@@ -1,6 +1,12 @@
 from django import forms
 
-from book.models import Book, BookReview
+from book.models import Book, BookReview, Category
+
+
+class AddCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = "__all__"
 
 
 class AddBookForm(forms.ModelForm):
