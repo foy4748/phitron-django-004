@@ -20,12 +20,15 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from django.views.generic.base import TemplateView
+
 urlpatterns = [
     # Reload Browser URL config
     path("__reload__/", include("django_browser_reload.urls")),
     path("admin/", admin.site.urls),
     path("book/", include("book.urls")),
-    path("", include("auth_app.urls")),
+    path("auth/", include("auth_app.urls")),
+    path("", TemplateView.as_view(template_name="home.html")),
 ]
 
 # Adding Media Config URL at the end
