@@ -1,4 +1,5 @@
 {% extends "base.html" %} 
+{}
 {% block content %}
 
 <div class="grid grid-cols-12">
@@ -8,6 +9,8 @@
 		<div class="p-8">
 			<h1 class="font-bold text-xl mb-4">My Profile</h1>
 			<div class="mb-4">
+				<p class="font-bold">Current Balance:</p>
+				<p class="ps-4 mb-4 italic"> {{ request.user.profile.balance }}</p>
 				<p class="fw-bold">{{request.user.first_name}} {{request.user.last_name}}</p>
 				<p class="fw-bold italic">{{request.user.email}}</p>
 			</div>
@@ -17,60 +20,72 @@
 
 	</div>
 	<div class="col-span-9">
-
+		{% if object_list|length != 0 %}
 		<div class="p-8">
-		<h1 class="font-bold text-xl mb-4">Borrowed Book List</h1>
-		<!-- Table -->
-		<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-			<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-					<tr>
-						<th scope="col" class="px-6 py-3">
-							Book Name
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Author
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Category
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Price
-						</th>
-						<th scope="col" class="px-6 py-3">
-							Actions
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for borrowed_book in object_list %}
-					<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-						<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-							{{ borrowed_book.book.book_name }}
-						</th>
-						<td class="px-6 py-4">
-							{{ borrowed_book.book.author }}
-						</td>
-						<td class="px-6 py-4">
-							{{ borrowed_book.book.category }}
-						</td>
-						<td class="px-6 py-4">
-							{{ borrowed_book.book.price }}
-						</td>
-						<td class="px-6 py-4">
-							<a href="{% url "book:return_book" pk=borrowed_book.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Return</a>
-						</td>
-						<td class="px-6 py-4">
-							<a href="{% url "book:review_book" pk=borrowed_book.book.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Review</a>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		<!-- END of Table -->
+			<div class="flex justify-between">
+				<h1 class="font-bold text-xl mb-4">Borrowed Book List</h1>
+				<h1 class="font-bold text-xl mb-4">Current Balance : {{ request.user.profile.balance }}</h1>
+
+			</div>
+			<!-- Table -->
+			<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr>
+							<th scope="col" class="px-6 py-3">
+								Book Name
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Author
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Category
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Price
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Actions
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for borrowed_book in object_list %}
+						<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+							<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+								{{ borrowed_book.book.book_name }}
+							</th>
+							<td class="px-6 py-4">
+								{{ borrowed_book.book.author }}
+							</td>
+							<td class="px-6 py-4">
+								{{ borrowed_book.book.category }}
+							</td>
+							<td class="px-6 py-4">
+								{{ borrowed_book.book.price }}
+							</td>
+							<td class="px-6 py-4">
+								<a href="{% url "book:return_book" pk=borrowed_book.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Return</a>
+							</td>
+							<td class="px-6 py-4">
+								<a href="{% url "book:review_book" pk=borrowed_book.book.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Review</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<!-- END of Table -->
 
 		</div>
+		{% else %}
+		<div class="p-8 w-full h-full flex justify-center items-center">
+			<div class="text-center" >
+				<h1 class="font-bold text-xl">No Borrowed Books</h1>
+				<a class="text-blue-600" href="{% url "book:book_list" %}#book-list"><p>Borrow Some</p></a>
+			</div>
+		</div>
+		{% endif %}
 	</div>
 
 </div>
