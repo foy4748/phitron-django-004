@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, ListView, View
 from django.contrib import messages
+from django.shortcuts import render
 
 
 # from utils.send_email import success_email
@@ -26,24 +27,48 @@ class ShowAddBookForm(LoginRequiredMixin, CreateView):
     success_url = "/"
 
 
-class ShowBookList(LoginRequiredMixin, ListView):
-    model = Book
+# class ShowBookList(LoginRequiredMixin, ListView):
+#     model = Book
 
-    def get_queryset(self):
-        q = super().get_queryset()
+#     def get_queryset(self):
+#         q = super().get_queryset()
+#         category_id = self.request.GET.get("category_id")
+
+#         # is_filtered = False
+#         # category = None
+
+#         if category_id is None:
+#             book_list = Book.objects.all()
+#             return book_list
+#         else:
+#             category = Category.objects.get(id=category_id)
+#             book_list = Book.objects.filter(category=category)
+#             # is_filtered = True
+#             return book_list
+
+
+class ShowBookAndCategoryList(View):
+    def get(self, req):
+        category_list = Category.objects.all()
         category_id = self.request.GET.get("category_id")
 
-        # is_filtered = False
-        # category = None
+        is_filtered = False
+        category = None
 
         if category_id is None:
             book_list = Book.objects.all()
-            return book_list
         else:
             category = Category.objects.get(id=category_id)
             book_list = Book.objects.filter(category=category)
-            # is_filtered = True
-            return book_list
+            is_filtered = True
+
+        ctx = {
+            "book_list": book_list,
+            "category_list": category_list,
+            "is_filtered": is_filtered,
+            "category": category,
+        }
+        return render(req, "book/book_list.html", context=ctx)
 
 
 class ShowBookDetail(LoginRequiredMixin, DetailView):
