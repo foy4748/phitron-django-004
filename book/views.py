@@ -21,13 +21,39 @@ isSendEmail = False
 class ShowCategoryForm(LoginRequiredMixin, CreateView):
     model = Category
     form_class = AddCategoryForm
-    success_url = "/"
+    success_url = "book:book_list"
+
+    def form_valid(self, form):
+        # Success Toast
+        success_message = f"Added {form.cleaned_data['category']} category Successfully"
+        messages.success(self.request, success_message)
+        form.save()
+        return super().form_invalid(form)
+
+    def form_invalid(self, form):
+        # Success Toast
+        error_message = f"Failed to add category"
+        messages.success(self.request, error_message)
+        return super().form_invalid(form)
 
 
 class ShowAddBookForm(LoginRequiredMixin, CreateView):
     model = Book
     form_class = AddBookForm
     success_url = "/"
+
+    def form_valid(self, form):
+        # Success Toast
+        success_message = f"Added {form.cleaned_data['book_name']} Successfully"
+        messages.success(self.request, success_message)
+        form.save()
+        return super().form_invalid(form)
+
+    def form_invalid(self, form):
+        # Success Toast
+        error_message = f"Failed to add book"
+        messages.success(self.request, error_message)
+        return super().form_invalid(form)
 
 
 # class ShowBookList(LoginRequiredMixin, ListView):
