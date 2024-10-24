@@ -8,10 +8,13 @@ from django.contrib import messages
 from django.shortcuts import render
 
 
-# from utils.send_email import success_email
+from utils.send_email import success_email
 
 from .forms import AddBookForm, AddCategoryForm, AddReviewForm
 from book.models import Book, BookReview, BorrowedBook, Category
+
+# Configs
+isSendEmail = False
 
 
 # Create your views here.
@@ -131,8 +134,9 @@ class BorrowBook(LoginRequiredMixin, View):
 
                 # Success Email
                 nextUrl = reverse("book:borrowedbook_list")
-                # subject = "Borrowed Book Successfully"
-                # success_email(self.request, subject, success_message, nextUrl)
+                if isSendEmail is True:
+                    subject = "Borrowed Book Successfully"
+                    success_email(self.request, subject, success_message, nextUrl)
                 nextUrl = reverse("book:borrowedbook_list")
                 return HttpResponseRedirect(nextUrl)
             else:
@@ -169,12 +173,12 @@ class ReturnBook(LoginRequiredMixin, View):
                 f"RETURNED Book successfully : {book.book_name} | {book.author}"
             )
             messages.success(req, success_message)
-            nextUrl = reverse("book:book_list")
+            nextUrl = reverse("book:borrowedbook_list")
             return HttpResponseRedirect(nextUrl)
         else:
             error_message = f"Non-existing Borrowed Book or User"
             messages.error(req, error_message)
-            nextUrl = reverse("book:book_list")
+            # nextUrl = reverse("book:book_list")
             return HttpResponseRedirect(nextUrl)
 
 
@@ -208,4 +212,5 @@ class ReviewBook(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         form.instance.book = book
         form.save()
+        messages.success(self.request, "Review created successfully")
         return super().form_valid(form)

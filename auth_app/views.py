@@ -15,6 +15,10 @@ from django.views.generic.edit import FormView, UpdateView
 from auth_app.forms import ChangeProfileForm, DepositeForm, RegisterForm
 from auth_app.models import Profile
 
+from utils.send_email import success_email
+
+isSendEmail = False
+
 
 # Create your views here.
 class ShowRegistrationForm(CreateView):
@@ -71,6 +75,14 @@ class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
 
     def form_valid(self, form):
         messages.success(self.request, "Changed password successfully")
+        # Success Email
+        nextUrl = reverse_lazy("book:borrowedbook_list")
+        if isSendEmail is True:
+            subject = "Changed Password Successfully"
+            success_message = (
+                "Your LibForever account password has been changed successfully"
+            )
+            success_email(self.request, subject, success_message, nextUrl)
         return super().form_valid(form)
 
     def form_invalid(self, form):

@@ -4,9 +4,9 @@
 
 <div class="grid grid-cols-12">
 
-	<div class="col-span-3">
+	<div class="col-span-2">
 		<!-- Profile Part -->
-		<div class="p-8">
+		<div class="p-4">
 			<h1 class="font-bold text-xl mb-4">My Profile</h1>
 			<div class="mb-4">
 				<p class="font-bold">Current Balance:</p>
@@ -19,7 +19,7 @@
 		</div>
 
 	</div>
-	<div class="col-span-9">
+	<div class="col-span-10">
 		{% if object_list|length != 0 %}
 		<div class="p-8">
 			<div class="flex justify-between">
@@ -42,10 +42,15 @@
 								Category
 							</th>
 							<th scope="col" class="px-6 py-3">
+								Borrowed Date
+							</th>
+							<th scope="col" class="px-6 py-3">
 								Price
 							</th>
 							<th scope="col" class="px-6 py-3">
 								Actions
+							</th>
+							<th scope="col" class="px-6 py-3">
 							</th>
 						</tr>
 					</thead>
@@ -60,6 +65,9 @@
 							</td>
 							<td class="px-6 py-4">
 								{{ borrowed_book.book.category }}
+							</td>
+							<td class="px-6 py-4">
+								{{ borrowed_book.borrowedAt}}
 							</td>
 							<td class="px-6 py-4">
 								{{ borrowed_book.book.price }}

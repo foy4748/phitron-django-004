@@ -22,6 +22,7 @@
 			</ul>
 		</section>
 	</section>
+	{% if review_list|length != 0 %}
 	<!-- Comment Section -->
 	<!-- Comment List -->
 	<section  class="col-span-12 lg:col-span-4">
@@ -43,6 +44,7 @@
 		{% endfor %}
 
 	</section>
+	{% endif %}
 
 	<!-- END of Comment Section -->
 </section>
