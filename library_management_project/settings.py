@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("IS_DEBUG", default=False)
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -175,6 +175,9 @@ TAILWIND_APP_NAME = "theme"
 # INTERNAL_IPS = [
 #     "127.0.0.1",
 # ]
+
+# CSRF Token white listing domains
+CSRF_TRUSTED_ORIGINS = ["https://phitron-django-004.onrender.com"]
 
 # Login Path Related
 LOGIN_URL = "auth:login_form"
