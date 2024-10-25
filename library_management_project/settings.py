@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # Packages
     "tailwind",
     "theme",
-    "django_browser_reload",  # Dev Dependency
+    # "django_browser_reload",  # Dev Dependency
     "whitenoise.runserver_nostatic",
     ## Crispy Related
     "crispy_forms",
@@ -166,9 +166,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Tailwind Related
 TAILWIND_APP_NAME = "theme"
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]
 
 # Login Path Related
 LOGIN_URL = "auth:login_form"
