@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # Packages
     "tailwind",
     "theme",
-    "django_browser_reload",
+    "django_browser_reload",  # Dev Dependency
     "whitenoise.runserver_nostatic",
     ## Crispy Related
     "crispy_forms",
@@ -65,7 +65,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Browser Auto Reload
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "library_management_project.urls"

@@ -23,8 +23,9 @@ from django.conf import settings
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
-    # Reload Browser URL config
-    path("__reload__/", include("django_browser_reload.urls")),
+    # Reload Browser URL config | Useful during development
+    # path("__reload__/", include("django_browser_reload.urls")),
+    # Regular Paths
     path("admin/", admin.site.urls),
     path("auth/", include("auth_app.urls")),
     path("", include("book.urls")),
