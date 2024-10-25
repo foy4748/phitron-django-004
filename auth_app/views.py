@@ -17,7 +17,7 @@ from auth_app.models import Profile
 
 from utils.send_email import success_email
 
-isSendEmail = False
+isSendEmail = True
 
 
 # Create your views here.
@@ -87,6 +87,11 @@ class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
 
     def form_invalid(self, form):
         messages.error(self.request, "FAILED to Change password")
+        nextUrl = reverse_lazy("book:borrowedbook_list")
+        if isSendEmail is True:
+            subject = "FAILED to Changed Password"
+            success_message = "FAILED to change your LibForever account password"
+            success_email(self.request, subject, success_message, nextUrl)
         return super().form_invalid(form)
 
 

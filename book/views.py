@@ -14,7 +14,7 @@ from .forms import AddBookForm, AddCategoryForm, AddReviewForm
 from book.models import Book, BookReview, BorrowedBook, Category
 
 # Configs
-isSendEmail = False
+isSendEmail = True
 
 
 # Create your views here.
@@ -166,7 +166,14 @@ class BorrowBook(LoginRequiredMixin, View):
                 nextUrl = reverse("book:borrowedbook_list")
                 return HttpResponseRedirect(nextUrl)
             else:
-                error_message = f"Non-existing Book or User"
+                nextUrl = reverse("book:borrowedbook_list")
+                error_message = (
+                    f"FAILED to Borrow Book due to Non-existing Book or User"
+                )
+                if isSendEmail is True:
+                    subject = "FAILED to Borrow Book"
+                    success_email(self.request, subject, error_message, nextUrl)
+                nextUrl = reverse("book:borrowedbook_list")
                 messages.error(req, error_message)
                 nextUrl = reverse("book:book_list")
                 return HttpResponseRedirect(nextUrl)
