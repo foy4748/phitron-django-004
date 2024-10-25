@@ -34,6 +34,9 @@ class BorrowedBook(models.Model):
         User, on_delete=models.CASCADE, related_name="borrowed_books"
     )
     borrowedAt = models.DateTimeField(default=timezone.now)
+    balance_after_borrowing = models.DecimalField(
+        decimal_places=2, max_digits=12, default=0.00
+    )
 
     class Meta:
         unique_together = (("book", "user"),)

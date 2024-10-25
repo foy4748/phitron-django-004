@@ -117,7 +117,7 @@ class ChangeProfileView(LoginRequiredMixin, UpdateView):
 class DepositeBalanceView(LoginRequiredMixin, FormView):
     model = Profile
     form_class = DepositeForm
-    success_url = "/"
+    success_url = reverse_lazy("book:borrowedbook_list")
     template_name = "auth_app/deposite_form.html"
 
     def get_context_data(self, **kwargs):
@@ -134,6 +134,10 @@ class DepositeBalanceView(LoginRequiredMixin, FormView):
         profile = self.request.user.profile
         profile.balance = profile.balance + current_form.cleaned_data["deposite_amount"]
         messages.success(self.request, "Deposited balance successfully")
+        if isSendEmail is True:
+            subject = "Changed Password Successfully"
+            success_message = f"Deposited balance.<br/>Deposite amount: {current_form.cleaned_data['deposite_amount']}<br/>Current Balance: {profile.balance}"
+            success_email(self.request, subject, success_message, str(self.success_url))
         profile.save()
         # current_form.save()
         return super().form_valid(form)

@@ -9,8 +9,8 @@ def success_email(
     request,
     subject,
     message,
-    success_url="http://localhost:3000/",
-    domain="http://localhost:3000/",
+    success_url="https://phitron-django-004.onrender.com/",
+    domain="https://phitron-django-004.onrender.com/",
 ):
     sender = settings.EMAIL_HOST_USER
     recipient_list = [request.user.email]
@@ -31,8 +31,8 @@ def failure_email(
     request,
     subject,
     message,
-    success_url="http://localhost:3000/",
-    domain="http://localhost:3000/",
+    success_url="https://phitron-django-004.onrender.com/",
+    domain="https://phitron-django-004.onrender.com/",
 ):
     sender = settings.EMAIL_HOST_USER
     recipient_list = [request.user.email]

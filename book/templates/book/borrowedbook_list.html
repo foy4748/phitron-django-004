@@ -48,6 +48,9 @@
 								Price
 							</th>
 							<th scope="col" class="px-6 py-3">
+								Balance After Borrowing
+							</th>
+							<th scope="col" class="px-6 py-3">
 								Actions
 							</th>
 							<th scope="col" class="px-6 py-3">
@@ -71,6 +74,9 @@
 							</td>
 							<td class="px-6 py-4">
 								{{ borrowed_book.book.price }}
+							</td>
+							<td class="px-6 py-4">
+								{{ borrowed_book.balance_after_borrowing }}
 							</td>
 							<td class="px-6 py-4">
 								<a href="{% url "book:return_book" pk=borrowed_book.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Return</a>

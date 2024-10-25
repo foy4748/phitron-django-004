@@ -151,9 +151,10 @@ class BorrowBook(LoginRequiredMixin, View):
                 user.profile.balance = user.profile.balance - book.price
                 book.save()  # Quantity Updated
                 user.profile.save()  # Balance Updated
-                borrow_instance = BorrowedBook(user=user, book=book)
+                borrow_instance = BorrowedBook(
+                    user=user, book=book, balance_after_borrowing=user.profile.balance
+                )
                 borrow_instance.save()
-                print(borrow_instance)
                 # Success Toast
                 success_message = f"Borrowed book successfully : {book.book_name} | {book.author} by you ({self.request.user.username})"
                 messages.success(req, success_message)
