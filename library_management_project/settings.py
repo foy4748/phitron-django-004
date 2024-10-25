@@ -29,7 +29,13 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com", ".vercel.app", "localhost"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "https://phitron-django-004.onrender.com",
+    ".vercel.app",
+    ".onrender.com",
+    "localhost",
+]
 
 
 # Application definition
