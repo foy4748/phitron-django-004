@@ -167,9 +167,10 @@
                 visibility: hidden;
                 width: 0;
               "
-              >This is preheader text. Some clients will show this text as a
-              preview.</span
             >
+              <!-- This is preheader text. Some clients will show this text as a preview. -->
+              {{ message|truncatechars:30 }}
+            </span>
             <table
               role="presentation"
               border="0"

@@ -135,13 +135,17 @@ class DepositeBalanceView(LoginRequiredMixin, FormView):
         profile.balance = profile.balance + current_form.cleaned_data["deposite_amount"]
         messages.success(self.request, "Deposited balance successfully")
         if isSendEmail is True:
-            subject = "Changed Password Successfully"
-            success_message = f"Deposited balance.<br/>Deposite amount: {current_form.cleaned_data['deposite_amount']}<br/>Current Balance: {profile.balance}"
+            subject = "Deposited Balance Successfully"
+            success_message = f"Deposited balance. Deposite amount: {current_form.cleaned_data['deposite_amount']} Current Balance: {profile.balance}"
             success_email(self.request, subject, success_message, str(self.success_url))
         profile.save()
         # current_form.save()
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        if isSendEmail is True:
+            subject = "FAILED to Deposite Balance"
+            success_message = f"FAILED to Deposite Balance due to invalid action."
+            success_email(self.request, subject, success_message, str(self.success_url))
         messages.error(self.request, "FAILED to Deposite Balance")
         return super().form_invalid(form)

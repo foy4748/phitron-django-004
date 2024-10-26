@@ -30,8 +30,8 @@
 		{% for singleReview in review_list  %}
 		<div class="bg-slate-100 mb-3">
 			<div class="flex justify-between">
-				{% if singleReview.commenter_name is not None %}
-				<p class="p-0 m-0">@{{singleReview.commenter_name}}</p>
+				{% if singleReview.user.username is not None %}
+				<p class="p-0 m-0">@{{ singleReview.user.username }}</p>
 				{% else %}
 				<p class="p-0 m-0">@anonymous</p>
 				{% endif %}

@@ -51,7 +51,7 @@ class BookReview(models.Model):
     )
 
     user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="reviewed_books"
+        User, on_delete=models.SET_NULL, null=True, related_name="book_reviewers"
     )
     review = models.TextField(max_length=5120)
     createdAt = models.DateTimeField(default=timezone.now)
